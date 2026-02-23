@@ -1,181 +1,356 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dia 27 🎬</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dia 27 🎬</title>
 
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:grid;
-  place-items:center;
-  background:#000;
-  color:white;
-  font-family:system-ui,Arial;
-  text-align:center;
-  overflow:hidden;
-}
+  <style>
+    :root{
+      --bg:#000;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
+      --text:#fff;
+      --pink:#ff2e6a;
+    }
+    *{box-sizing:border-box}
 
-/* CARD */
-.card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  padding:22px;
-  border-radius:20px;
-  width:min(720px,92vw);
-  backdrop-filter:blur(10px);
-}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(circle at top, rgba(255,46,106,.18) 0%, rgba(255,46,106,.06) 25%, #000 60%);
+      color:var(--text);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      overflow:hidden;
+      text-align:center;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* MASCARA */
-.mask{
-  width:220px;
-  margin:auto;
-  animation:float 4s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
-}
+    /* estrelas bem leves */
+    .stars{
+      position:absolute; inset:-200px 0 0 0;
+      background-repeat:repeat;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.65), transparent 55%),
+        radial-gradient(1px 1px at 120px 80px, rgba(255,255,255,.45), transparent 55%),
+        radial-gradient(1px 1px at 240px 140px, rgba(255,255,255,.35), transparent 55%),
+        radial-gradient(2px 2px at 360px 60px, rgba(255,255,255,.55), transparent 55%),
+        radial-gradient(1px 1px at 480px 120px, rgba(255,255,255,.40), transparent 55%);
+      background-size: 650px 220px;
+      animation: starMove 22s linear infinite;
+      opacity:.40;
+      pointer-events:none;
+    }
+    @keyframes starMove{ from{transform:translateY(0)} to{transform:translateY(220px)} }
 
-/* TEXTO */
-h1{margin:10px 0 6px}
-.sub{opacity:.85;margin-bottom:14px}
+    .card{
+      width:min(760px, 92vw);
+      padding:22px 18px 16px;
+      border-radius:22px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      position:relative;
+      z-index:2;
+    }
 
-/* BOTÕES */
-.cta{
-  position:relative;
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  padding:20px;
-}
+    .maskWrap{
+      width:min(340px, 75vw);
+      margin: 10px auto 6px;
+      filter: drop-shadow(0 0 18px rgba(255,46,106,.25));
+      animation: float 4.2s ease-in-out infinite;
+    }
+    @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
-button{
-  padding:12px 18px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.08);
-  color:white;
-  font-size:15px;
-  cursor:pointer;
-}
+    h1{
+      margin: 8px 0 8px;
+      font-size: 1.22rem;
+      letter-spacing: .3px;
+    }
+    .sub{
+      margin: 0 0 14px;
+      opacity:.88;
+      line-height:1.35;
+    }
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      margin: 0 0 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      font-size:.95rem;
+    }
 
-#yes{
-  background:linear-gradient(135deg,#ff2e6a,#ff2e6a80);
-}
+    .cta{
+      margin-top: 10px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      position:relative;
+      padding: 16px 10px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+    }
 
-#no{
-  position:relative;
-}
+    button{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-size: 15px;
+      cursor:pointer;
+      transition: transform .12s ease, background .2s ease, opacity .2s ease;
+      user-select:none;
+      touch-action: manipulation;
+    }
+    button:active{ transform: scale(.98); }
 
-/* mensagem */
-.msg{
-  margin-top:12px;
-  min-height:20px;
-  opacity:.85;
-}
+    #yes{
+      background: linear-gradient(135deg, rgba(255,46,106,.95), rgba(255,46,106,.45));
+      border-color: rgba(255,46,106,.65);
+    }
+    #no{ position: relative; will-change: transform; }
 
-/* botão som */
-#soundBtn{
-  margin-top:12px;
-  padding:10px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.08);
-  color:white;
-}
-</style>
+    .msg{
+      margin: 12px 0 0;
+      font-size: .95rem;
+      opacity:.82;
+      min-height: 1.2em;
+    }
+
+    .toast{
+      margin-top:10px;
+      font-size: 1rem;
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .toast.show{ opacity:1; transform: translateY(0); }
+
+    #soundBtn{
+      margin-top:12px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:white;
+      font-size:14px;
+      width: min(240px, 90%);
+    }
+
+    @media (max-width:420px){
+      h1{ font-size: 1.12rem; }
+      button{ width: min(240px, 86vw); }
+      .cta{ padding: 18px 10px; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="stars" aria-hidden="true"></div>
 
-<div class="card">
+  <div class="card">
+    <!-- MÁSCARA MAIS PARECIDA -->
+    <div class="maskWrap" aria-hidden="true">
+      <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="face" cx="42%" cy="30%" r="80%">
+            <stop offset="0%"  stop-color="#ffffff"/>
+            <stop offset="55%" stop-color="#e9e9e9"/>
+            <stop offset="100%" stop-color="#cfcfcf"/>
+          </radialGradient>
 
-<div class="mask">
-<!-- máscara estilo ghostface -->
-<svg viewBox="0 0 200 240">
-<ellipse cx="100" cy="120" rx="70" ry="95" fill="#fff"/>
-<ellipse cx="70" cy="100" rx="18" ry="24" fill="#000"/>
-<ellipse cx="130" cy="100" rx="18" ry="24" fill="#000"/>
-<ellipse cx="100" cy="150" rx="12" ry="10" fill="#000"/>
-<ellipse cx="100" cy="185" rx="20" ry="30" fill="#000"/>
-</svg>
-</div>
+          <radialGradient id="faceShadow" cx="45%" cy="40%" r="80%">
+            <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+            <stop offset="65%" stop-color="rgba(0,0,0,.18)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,.35)"/>
+          </radialGradient>
 
-<h1>Então… sobre o dia 27 🎬</h1>
+          <radialGradient id="hood" cx="50%" cy="35%" r="85%">
+            <stop offset="0%" stop-color="#1a1a1f"/>
+            <stop offset="65%" stop-color="#0a0a0e"/>
+            <stop offset="100%" stop-color="#020205"/>
+          </radialGradient>
 
-<div class="sub">
-Só queria confirmar se está tudo certo até lá 🙂<br>
-Eu vou comprar os ingressos e já garantir o combo 🍿
-</div>
+          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="rgba(0,0,0,.55)"/>
+          </filter>
 
-<div class="cta" id="cta">
-<button id="yes">✅ Tá tudo certo</button>
-<button id="no">❌ Ainda não</button>
-</div>
+          <filter id="inner" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+            <feOffset dy="2" result="off"/>
+            <feComposite in="off" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="innerShadow"/>
+            <feColorMatrix in="innerShadow" type="matrix"
+              values="0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 .55 0"/>
+            <feComposite in="SourceGraphic" operator="over"/>
+          </filter>
+        </defs>
 
-<div class="msg" id="msg">
-(hmm… tenta clicar no “ainda não” 😈)
-</div>
+        <!-- capuz -->
+        <path d="M180 18
+                 C92 34, 40 96, 34 176
+                 C24 302, 76 378, 180 414
+                 C284 378, 336 302, 326 176
+                 C320 96, 268 34, 180 18 Z"
+              fill="url(#hood)" filter="url(#softShadow)"/>
+        <path d="M180 48
+                 C114 60, 78 106, 74 176
+                 C68 280, 110 346, 180 372
+                 C250 346, 292 280, 286 176
+                 C282 106, 246 60, 180 48 Z"
+              fill="rgba(255,255,255,.04)"/>
 
-<button id="soundBtn">🔊 Ativar som</button>
+        <!-- rosto -->
+        <path d="M180 80
+                 C132 80, 104 124, 108 188
+                 C112 258, 142 322, 180 342
+                 C218 322, 248 258, 252 188
+                 C256 124, 228 80, 180 80 Z"
+              fill="url(#face)" filter="url(#inner)"/>
+        <path d="M180 88
+                 C140 92, 118 130, 122 190
+                 C126 250, 148 304, 180 324
+                 C212 304, 234 250, 238 190
+                 C242 130, 220 92, 180 88 Z"
+              fill="url(#faceShadow)" opacity=".55"/>
 
-</div>
+        <!-- olhos -->
+        <path d="M120 182
+                 C112 142, 150 122, 176 146
+                 C165 178, 145 202, 120 182 Z"
+              fill="#06060a"/>
+        <path d="M240 182
+                 C248 142, 210 122, 184 146
+                 C195 178, 215 202, 240 182 Z"
+              fill="#06060a"/>
 
-<audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
+        <!-- nariz -->
+        <path d="M180 198
+                 C170 210, 170 222, 180 232
+                 C190 222, 190 210, 180 198 Z"
+              fill="#0a0a10" opacity=".9"/>
 
-<script>
-const noBtn=document.getElementById("no");
-const yesBtn=document.getElementById("yes");
-const msg=document.getElementById("msg");
-const cta=document.getElementById("cta");
+        <!-- boca longa -->
+        <path d="M154 254
+                 C158 232, 202 232, 206 254
+                 C214 292, 202 322, 180 338
+                 C158 322, 146 292, 154 254 Z"
+              fill="#0a0a10"/>
 
-const music=document.getElementById("music");
-const soundBtn=document.getElementById("soundBtn");
+        <!-- brilho sutil -->
+        <path d="M132 120
+                 C150 98, 210 98, 228 120"
+              stroke="rgba(255,255,255,.35)" stroke-width="4"
+              stroke-linecap="round" fill="none" opacity=".55"/>
+      </svg>
+    </div>
 
-async function enableSound(){
- try{
-   await music.play();
-   soundBtn.textContent="🔊 Som ativado";
- }catch{}
-}
+    <div class="badge">🎬 Dia <strong>27/02/2026</strong></div>
 
-soundBtn.onclick=enableSound;
-document.addEventListener("click",enableSound,{passive:true});
-document.addEventListener("touchstart",enableSound,{passive:true});
+    <h1>Tá tudo certo até o dia 27?</h1>
 
-/* botão NÃO foge */
-function dodge(){
- const box=cta.getBoundingClientRect();
- const btn=noBtn.getBoundingClientRect();
+    <div class="sub">
+      Você já aceitou o convite, então é só confirmar 🙂<br>
+      Eu vou comprar os ingressos e já garantir o combo 🍿
+    </div>
 
- const x=Math.random()*(box.width-btn.width);
- const y=Math.random()*40;
+    <div class="cta" id="cta">
+      <button id="yes" type="button">✅ Tá tudo certo</button>
+      <button id="no" type="button">❌ Ainda não</button>
+    </div>
 
- noBtn.style.transform=`translate(${x}px,${y}px)`;
- msg.textContent="acho que esse não não quer ser escolhido 😅";
-}
+    <div class="msg" id="msg">Dica: tenta clicar no “ainda não”… 😈</div>
+    <div class="toast" id="toast">Perfeito 😄 Dia 27 tá confirmado. Já vou garantir tudo! 🍿🎟️</div>
 
-noBtn.addEventListener("mouseenter",dodge);
-noBtn.addEventListener("touchstart",(e)=>{
- e.preventDefault();
- dodge();
-},{passive:false});
+    <button id="soundBtn" type="button">🔊 Ativar som</button>
+  </div>
 
-noBtn.addEventListener("click",(e)=>{
- e.preventDefault();
- dodge();
-});
+  <!-- Música local do repo (precisa existir como music.mp3 na raiz) -->
+  <audio id="music" loop preload="auto" playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
-yesBtn.onclick=()=>{
- msg.textContent="Perfeito 😄 então dia 27 é seen!";
- enableSound();
-};
-</script>
+  <script>
+    const noBtn  = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const msg    = document.getElementById("msg");
+    const toast  = document.getElementById("toast");
+    const cta    = document.getElementById("cta");
 
+    const music   = document.getElementById("music");
+    const soundBtn = document.getElementById("soundBtn");
+
+    async function enableSound(){
+      try{
+        await music.play();
+        soundBtn.textContent = "🔊 Som ativado";
+        soundBtn.style.opacity = "0.75";
+      }catch(e){
+        soundBtn.textContent = "Toque de novo 🙂";
+      }
+    }
+
+    soundBtn.addEventListener("click", enableSound);
+    document.addEventListener("touchstart", enableSound, {passive:true});
+    document.addEventListener("click", enableSound, {passive:true});
+
+    function dodge(){
+      const box = cta.getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
+
+      const pad = 10;
+      const maxX = box.width - btn.width - pad*2;
+      const maxY = box.height - btn.height - pad*2;
+
+      // se o CTA ficar apertado no mobile, faz só um pulo lateral
+      if (maxX < 10 || maxY < 10) {
+        const jump = (Math.random() > 0.5 ? 1 : -1) * (55 + Math.random()*55);
+        noBtn.style.transform = `translateX(${jump}px)`;
+        msg.textContent = "Esse ‘ainda não’ tá fugindo 😅";
+        return;
+      }
+
+      const x = pad + Math.random() * maxX;
+      const y = pad + Math.random() * maxY;
+
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      msg.textContent = "Hmm… não deixa eu escolher ‘ainda não’ 😈";
+    }
+
+    // foge no mouse / toque / clique
+    noBtn.addEventListener("mouseenter", dodge);
+    noBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); dodge(); }, {passive:false});
+    noBtn.addEventListener("click", (e)=>{ e.preventDefault(); dodge(); });
+
+    yesBtn.addEventListener("click", ()=>{
+      toast.classList.add("show");
+      msg.textContent = "Fechou! 😄";
+      enableSound();
+
+      // desarma o "não"
+      noBtn.disabled = true;
+      noBtn.style.opacity = ".45";
+      noBtn.style.cursor = "not-allowed";
+      noBtn.style.transform = "none";
+    });
+
+    // pulo inicial só pra brincar
+    setTimeout(dodge, 900);
+  </script>
 </body>
 </html>
