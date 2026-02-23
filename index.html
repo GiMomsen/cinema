@@ -72,15 +72,32 @@
     }
     @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
+    .dateBadge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      margin: 2px 0 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      font-size:.95rem;
+    }
+
     .cta{
-      margin-top: 10px;
+      margin-top: 12px;
       display:flex;
       gap:12px;
       justify-content:center;
       align-items:center;
       flex-wrap:wrap;
       position:relative;
-      padding: 8px 0 2px;
+      padding: 14px 6px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
     }
 
     button{
@@ -91,7 +108,8 @@
       border-radius: 16px;
       font-size: 15px;
       cursor:pointer;
-      transition: transform .12s ease, background .2s ease;
+      transition: transform .12s ease, background .2s ease, opacity .2s ease;
+      user-select:none;
     }
     button:active{ transform: scale(.98); }
 
@@ -99,12 +117,12 @@
       background: linear-gradient(135deg, rgba(255,46,106,.95), rgba(255,46,106,.45));
       border-color: rgba(255,46,106,.65);
     }
-    #yes:hover{ background: linear-gradient(135deg, rgba(255,46,106,1), rgba(255,46,106,.55)); }
 
-    /* botão NÃO vai ser posicionável */
+    /* Botão NÃO foge usando translate */
     #no{
-      position:relative;
+      position: relative;
       will-change: transform;
+      touch-action: manipulation;
     }
 
     .msg{
@@ -126,23 +144,20 @@
       transform: translateY(0);
     }
 
-    .dateBadge{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
-      margin: 2px 0 0;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      font-size:.95rem;
+    #soundBtn{
+      margin-top:12px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:white;
+      font-size:14px;
     }
 
-    /* mobile polish */
     @media (max-width:420px){
       h1{ font-size: 1.15rem; }
       button{ width: min(220px, 86vw); }
+      .cta{ padding: 16px 10px; }
     }
   </style>
 </head>
@@ -151,7 +166,7 @@
 
   <div class="card">
     <div class="maskWrap" aria-hidden="true">
-      <!-- Máscara estilo Ghostface (cartoon SVG, sem depender de imagem externa) -->
+      <!-- Máscara “Ghostface-like” (SVG próprio, sem imagem externa) -->
       <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="g" cx="40%" cy="30%" r="80%">
@@ -217,7 +232,6 @@
                  C162 318, 144 292, 150 255 Z"
               fill="#0a0a10"/>
 
-        <!-- detalhe "grito" -->
         <path d="M162 268
                  C164 250, 196 250, 198 268
                  C200 290, 192 308, 180 316
@@ -227,6 +241,7 @@
     </div>
 
     <h1>Convite misterioso… 🎭🍿</h1>
+
     <div class="sub">
       <span class="dateBadge">🎬 Cinema dia <strong>27/02/2026</strong></span>
       <div style="margin-top:10px; opacity:.9">Bora comigo?</div>
@@ -239,7 +254,14 @@
 
     <div class="msg" id="msg">Dica: tenta clicar no “não”… 😈</div>
     <div class="toast" id="toast">Perfeito 😍 Fechado! Te mando os detalhes 🎟️</div>
+
+    <button id="soundBtn" type="button">🔊 Ativar som</button>
   </div>
+
+  <!-- Música local do repo (tem que existir como music.mp3 na raiz) -->
+  <audio id="music" loop preload="auto" playsinline>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     const noBtn = document.getElementById("no");
@@ -248,42 +270,57 @@
     const msg = document.getElementById("msg");
     const cta = document.getElementById("cta");
 
-    // Move o botão "Não" para uma posição aleatória dentro do card
+    const music = document.getElementById("music");
+    const soundBtn = document.getElementById("soundBtn");
+
+    async function enableSound(){
+      try{
+        await music.play();
+        soundBtn.textContent = "🔊 Som ativado";
+        soundBtn.style.opacity = "0.75";
+      }catch(e){
+        soundBtn.textContent = "Toque de novo 🙂";
+      }
+    }
+
+    soundBtn.addEventListener("click", enableSound);
+    document.addEventListener("touchstart", enableSound, {passive:true});
+    document.addEventListener("click", enableSound, {passive:true});
+
+    // Move o botão "Não" para uma posição aleatória dentro do CTA
     function dodge(){
-      const cardRect = cta.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+      const box = cta.getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
 
-      // limites internos para não sair da área do CTA
-      const pad = 6;
-      const maxX = cardRect.width - btnRect.width - pad;
-      const maxY = cardRect.height - btnRect.height - pad;
+      const pad = 8;
+      const maxX = box.width - btn.width - pad*2;
+      const maxY = box.height - btn.height - pad*2;
 
-      // se o layout estiver apertado (mobile), a gente só dá um "pulo" lateral
+      // Se ficar apertado no mobile, faz um pulo lateral
       if (maxX < 10 || maxY < 10) {
-        const jump = (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random()*40);
+        const jump = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random()*50);
         noBtn.style.transform = `translateX(${jump}px)`;
         msg.textContent = "Ops… esse ‘não’ tá escapando 😅";
         return;
       }
 
-      const x = Math.floor(pad + Math.random() * maxX);
-      const y = Math.floor(pad + Math.random() * maxY);
+      const x = pad + Math.random() * maxX;
+      const y = pad + Math.random() * maxY;
 
-      // usa translate para movimentar suavemente
-      noBtn.style.transform = `translate(${x - pad}px, ${y - pad}px)`;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
       msg.textContent = "Não, não… tenta de novo 😈";
     }
 
-    // Fogem antes do clique (mouse)
+    // Fogem antes do clique
     noBtn.addEventListener("mouseenter", dodge);
 
     // Fogem no toque (celular)
     noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault(); // impede “clique” imediato
+      e.preventDefault();
       dodge();
     }, { passive:false });
 
-    // Se ainda assim tentarem clicar, foge de novo
+    // Se ainda tentarem clicar, foge de novo
     noBtn.addEventListener("click", (e) => {
       e.preventDefault();
       dodge();
@@ -292,15 +329,16 @@
     yesBtn.addEventListener("click", () => {
       toast.classList.add("show");
       msg.textContent = "Aí sim! 🍿❤️";
-      // opcional: “desarma” o botão não
+      enableSound();
+
       noBtn.disabled = true;
       noBtn.style.opacity = ".45";
       noBtn.style.cursor = "not-allowed";
       noBtn.style.transform = "none";
     });
 
-    // Pequeno “pulo” inicial pra já mostrar a brincadeira
-    setTimeout(() => dodge(), 900);
+    // “pulo” inicial
+    setTimeout(dodge, 900);
   </script>
 </body>
 </html>
