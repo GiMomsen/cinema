@@ -1,344 +1,181 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Convite 🎬</title>
-  <style>
-    :root{
-      --bg:#000;
-      --card:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.12);
-      --text:#fff;
-      --pink:#ff2e6a;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      background: radial-gradient(circle at top, rgba(255,46,106,.20) 0%, rgba(255,46,106,.06) 25%, #000 60%);
-      color:var(--text);
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      overflow:hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dia 27 🎬</title>
 
-    .stars{
-      position:absolute; inset:-200px 0 0 0;
-      background-repeat:repeat;
-      background-image:
-        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.65), transparent 55%),
-        radial-gradient(1px 1px at 120px 80px, rgba(255,255,255,.45), transparent 55%),
-        radial-gradient(1px 1px at 240px 140px, rgba(255,255,255,.35), transparent 55%),
-        radial-gradient(2px 2px at 360px 60px, rgba(255,255,255,.55), transparent 55%),
-        radial-gradient(1px 1px at 480px 120px, rgba(255,255,255,.40), transparent 55%);
-      background-size: 650px 220px;
-      animation: starMove 22s linear infinite;
-      opacity:.45;
-      pointer-events:none;
-    }
-    @keyframes starMove{ from{transform:translateY(0)} to{transform:translateY(220px)} }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:grid;
+  place-items:center;
+  background:#000;
+  color:white;
+  font-family:system-ui,Arial;
+  text-align:center;
+  overflow:hidden;
+}
 
-    .card{
-      width:min(760px, 92vw);
-      padding:22px 18px 16px;
-      border-radius:22px;
-      background:var(--card);
-      border:1px solid var(--stroke);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      position:relative;
-      z-index:2;
-      text-align:center;
-    }
+/* CARD */
+.card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  padding:22px;
+  border-radius:20px;
+  width:min(720px,92vw);
+  backdrop-filter:blur(10px);
+}
 
-    h1{
-      margin: 6px 0 8px;
-      font-size: 1.25rem;
-      letter-spacing: .4px;
-    }
-    .sub{
-      margin: 0 0 14px;
-      opacity:.88;
-    }
+/* MASCARA */
+.mask{
+  width:220px;
+  margin:auto;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
 
-    .maskWrap{
-      width:min(340px, 75vw);
-      margin: 10px auto 10px;
-      filter: drop-shadow(0 0 18px rgba(255,46,106,.35));
-      animation: float 4.2s ease-in-out infinite;
-    }
-    @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+/* TEXTO */
+h1{margin:10px 0 6px}
+.sub{opacity:.85;margin-bottom:14px}
 
-    .dateBadge{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
-      margin: 2px 0 0;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      font-size:.95rem;
-    }
+/* BOTÕES */
+.cta{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  padding:20px;
+}
 
-    .cta{
-      margin-top: 12px;
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      align-items:center;
-      flex-wrap:wrap;
-      position:relative;
-      padding: 14px 6px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      overflow:hidden;
-    }
+button{
+  padding:12px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+}
 
-    button{
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 16px;
-      font-size: 15px;
-      cursor:pointer;
-      transition: transform .12s ease, background .2s ease, opacity .2s ease;
-      user-select:none;
-    }
-    button:active{ transform: scale(.98); }
+#yes{
+  background:linear-gradient(135deg,#ff2e6a,#ff2e6a80);
+}
 
-    #yes{
-      background: linear-gradient(135deg, rgba(255,46,106,.95), rgba(255,46,106,.45));
-      border-color: rgba(255,46,106,.65);
-    }
+#no{
+  position:relative;
+}
 
-    /* Botão NÃO foge usando translate */
-    #no{
-      position: relative;
-      will-change: transform;
-      touch-action: manipulation;
-    }
+/* mensagem */
+.msg{
+  margin-top:12px;
+  min-height:20px;
+  opacity:.85;
+}
 
-    .msg{
-      margin: 12px 0 0;
-      font-size: .95rem;
-      opacity:.8;
-      min-height: 1.2em;
-    }
-
-    .toast{
-      margin-top:10px;
-      font-size: 1rem;
-      opacity:0;
-      transform: translateY(6px);
-      transition: opacity .25s ease, transform .25s ease;
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-    #soundBtn{
-      margin-top:12px;
-      padding:10px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.08);
-      color:white;
-      font-size:14px;
-    }
-
-    @media (max-width:420px){
-      h1{ font-size: 1.15rem; }
-      button{ width: min(220px, 86vw); }
-      .cta{ padding: 16px 10px; }
-    }
-  </style>
+/* botão som */
+#soundBtn{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+}
+</style>
 </head>
+
 <body>
-  <div class="stars" aria-hidden="true"></div>
 
-  <div class="card">
-    <div class="maskWrap" aria-hidden="true">
-      <!-- Máscara “Ghostface-like” (SVG próprio, sem imagem externa) -->
-      <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="g" cx="40%" cy="30%" r="80%">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="60%" stop-color="#eaeaea"/>
-            <stop offset="100%" stop-color="#cfcfcf"/>
-          </radialGradient>
-          <radialGradient id="shadow" cx="45%" cy="35%" r="75%">
-            <stop offset="0%" stop-color="rgba(0,0,0,.0)"/>
-            <stop offset="70%" stop-color="rgba(0,0,0,.18)"/>
-            <stop offset="100%" stop-color="rgba(0,0,0,.35)"/>
-          </radialGradient>
-        </defs>
+<div class="card">
 
-        <!-- capuz -->
-        <path d="M180 20
-                 C95 35, 42 92, 36 170
-                 C27 290, 70 365, 180 405
-                 C290 365, 333 290, 324 170
-                 C318 92, 265 35, 180 20 Z"
-              fill="#050507"/>
-        <path d="M180 38
-                 C112 50, 70 98, 66 170
-                 C59 276, 96 340, 180 372
-                 C264 340, 301 276, 294 170
-                 C290 98, 248 50, 180 38 Z"
-              fill="rgba(255,255,255,.04)"/>
+<div class="mask">
+<!-- máscara estilo ghostface -->
+<svg viewBox="0 0 200 240">
+<ellipse cx="100" cy="120" rx="70" ry="95" fill="#fff"/>
+<ellipse cx="70" cy="100" rx="18" ry="24" fill="#000"/>
+<ellipse cx="130" cy="100" rx="18" ry="24" fill="#000"/>
+<ellipse cx="100" cy="150" rx="12" ry="10" fill="#000"/>
+<ellipse cx="100" cy="185" rx="20" ry="30" fill="#000"/>
+</svg>
+</div>
 
-        <!-- máscara -->
-        <path d="M180 70
-                 C128 70, 92 120, 96 190
-                 C100 265, 130 330, 180 350
-                 C230 330, 260 265, 264 190
-                 C268 120, 232 70, 180 70 Z"
-              fill="url(#g)"/>
-        <path d="M180 80
-                 C135 80, 106 126, 110 190
-                 C114 258, 140 312, 180 330
-                 C220 312, 246 258, 250 190
-                 C254 126, 225 80, 180 80 Z"
-              fill="url(#shadow)" opacity=".65"/>
+<h1>Então… sobre o dia 27 🎬</h1>
 
-        <!-- olhos -->
-        <path d="M120 175
-                 C118 138, 152 120, 176 140
-                 C160 168, 142 188, 120 175 Z"
-              fill="#06060a"/>
-        <path d="M240 175
-                 C242 138, 208 120, 184 140
-                 C200 168, 218 188, 240 175 Z"
-              fill="#06060a"/>
+<div class="sub">
+Só queria confirmar se está tudo certo até lá 🙂<br>
+Eu vou comprar os ingressos e já garantir o combo 🍿
+</div>
 
-        <!-- nariz -->
-        <path d="M180 190
-                 C170 202, 170 214, 180 224
-                 C190 214, 190 202, 180 190 Z"
-              fill="#0a0a10" opacity=".85"/>
+<div class="cta" id="cta">
+<button id="yes">✅ Tá tudo certo</button>
+<button id="no">❌ Ainda não</button>
+</div>
 
-        <!-- boca -->
-        <path d="M150 255
-                 C154 230, 206 230, 210 255
-                 C216 292, 198 318, 180 330
-                 C162 318, 144 292, 150 255 Z"
-              fill="#0a0a10"/>
+<div class="msg" id="msg">
+(hmm… tenta clicar no “ainda não” 😈)
+</div>
 
-        <path d="M162 268
-                 C164 250, 196 250, 198 268
-                 C200 290, 192 308, 180 316
-                 C168 308, 160 290, 162 268 Z"
-              fill="rgba(255,255,255,.08)"/>
-      </svg>
-    </div>
+<button id="soundBtn">🔊 Ativar som</button>
 
-    <h1>Convite misterioso… 🎭🍿</h1>
+</div>
 
-    <div class="sub">
-      <span class="dateBadge">🎬 Cinema dia <strong>27/02/2026</strong></span>
-      <div style="margin-top:10px; opacity:.9">Bora comigo?</div>
-    </div>
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="cta" id="cta">
-      <button id="yes" type="button">✅ Sim</button>
-      <button id="no" type="button">❌ Não</button>
-    </div>
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const msg=document.getElementById("msg");
+const cta=document.getElementById("cta");
 
-    <div class="msg" id="msg">Dica: tenta clicar no “não”… 😈</div>
-    <div class="toast" id="toast">Perfeito 😍 Fechado! Te mando os detalhes 🎟️</div>
+const music=document.getElementById("music");
+const soundBtn=document.getElementById("soundBtn");
 
-    <button id="soundBtn" type="button">🔊 Ativar som</button>
-  </div>
+async function enableSound(){
+ try{
+   await music.play();
+   soundBtn.textContent="🔊 Som ativado";
+ }catch{}
+}
 
-  <!-- Música local do repo (tem que existir como music.mp3 na raiz) -->
-  <audio id="music" loop preload="auto" playsinline>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+soundBtn.onclick=enableSound;
+document.addEventListener("click",enableSound,{passive:true});
+document.addEventListener("touchstart",enableSound,{passive:true});
 
-  <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const toast = document.getElementById("toast");
-    const msg = document.getElementById("msg");
-    const cta = document.getElementById("cta");
+/* botão NÃO foge */
+function dodge(){
+ const box=cta.getBoundingClientRect();
+ const btn=noBtn.getBoundingClientRect();
 
-    const music = document.getElementById("music");
-    const soundBtn = document.getElementById("soundBtn");
+ const x=Math.random()*(box.width-btn.width);
+ const y=Math.random()*40;
 
-    async function enableSound(){
-      try{
-        await music.play();
-        soundBtn.textContent = "🔊 Som ativado";
-        soundBtn.style.opacity = "0.75";
-      }catch(e){
-        soundBtn.textContent = "Toque de novo 🙂";
-      }
-    }
+ noBtn.style.transform=`translate(${x}px,${y}px)`;
+ msg.textContent="acho que esse não não quer ser escolhido 😅";
+}
 
-    soundBtn.addEventListener("click", enableSound);
-    document.addEventListener("touchstart", enableSound, {passive:true});
-    document.addEventListener("click", enableSound, {passive:true});
+noBtn.addEventListener("mouseenter",dodge);
+noBtn.addEventListener("touchstart",(e)=>{
+ e.preventDefault();
+ dodge();
+},{passive:false});
 
-    // Move o botão "Não" para uma posição aleatória dentro do CTA
-    function dodge(){
-      const box = cta.getBoundingClientRect();
-      const btn = noBtn.getBoundingClientRect();
+noBtn.addEventListener("click",(e)=>{
+ e.preventDefault();
+ dodge();
+});
 
-      const pad = 8;
-      const maxX = box.width - btn.width - pad*2;
-      const maxY = box.height - btn.height - pad*2;
+yesBtn.onclick=()=>{
+ msg.textContent="Perfeito 😄 então dia 27 é seen!";
+ enableSound();
+};
+</script>
 
-      // Se ficar apertado no mobile, faz um pulo lateral
-      if (maxX < 10 || maxY < 10) {
-        const jump = (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random()*50);
-        noBtn.style.transform = `translateX(${jump}px)`;
-        msg.textContent = "Ops… esse ‘não’ tá escapando 😅";
-        return;
-      }
-
-      const x = pad + Math.random() * maxX;
-      const y = pad + Math.random() * maxY;
-
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-      msg.textContent = "Não, não… tenta de novo 😈";
-    }
-
-    // Fogem antes do clique
-    noBtn.addEventListener("mouseenter", dodge);
-
-    // Fogem no toque (celular)
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      dodge();
-    }, { passive:false });
-
-    // Se ainda tentarem clicar, foge de novo
-    noBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      dodge();
-    });
-
-    yesBtn.addEventListener("click", () => {
-      toast.classList.add("show");
-      msg.textContent = "Aí sim! 🍿❤️";
-      enableSound();
-
-      noBtn.disabled = true;
-      noBtn.style.opacity = ".45";
-      noBtn.style.cursor = "not-allowed";
-      noBtn.style.transform = "none";
-    });
-
-    // “pulo” inicial
-    setTimeout(dodge, 900);
-  </script>
 </body>
 </html>
